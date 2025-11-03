@@ -1,8 +1,10 @@
 const morgan = require('morgan')
 const express = require('express')
+const cors = require('cors')
 const app = express()
 
 //midlewares
+app.use(cors())
 morgan.token('request-data', function (req, res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status - :response-time ms :request-data'))
 app.use(express.json())
