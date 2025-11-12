@@ -1,15 +1,15 @@
-require('dotenv').config() 
+require('dotenv').config()
 const morgan = require('morgan')
 const express = require('express')
 const cors = require('cors')
-const Person = require('./models/person') 
+const Person = require('./models/person')
 const app = express()
 
 //cors
 app.use(cors())
 
 //morgan
-morgan.token('request-data', function (req, res) { return JSON.stringify(req.body) })
+morgan.token('request-data', function (req) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status - :response-time ms :request-data'))
 
 //express
@@ -50,7 +50,7 @@ app.post('/api/persons', (request, response, next) => {
 app.put('/api/persons/:id', (request, response, next) => {
   const { name, number } = request.body
 
-  Person.findByIdAndUpdate(request.params.id, 
+  Person.findByIdAndUpdate(request.params.id,
     { name, number },
     { new: true, runValidators: true, context: 'query' })
     .then(personUpdated => {
